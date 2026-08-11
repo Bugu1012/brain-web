@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>松涧听澜 · 本地知识门户</title>
+  <style>
+    :root {
+      --paper: #f5f1e9;
+      --paper-2: #edf4f0;
+      --ink: #1f2b27;
+      --muted: #667a72;
+      --jade: #2f6f5f;
+      --jade-dark: #17483f;
+      --coral: #c94f45;
+      --gold: #bd8b2f;
+      --blue: #346bb8;
+      --line: rgba(44, 77, 67, .18);
+      --shadow: 0 24px 70px rgba(28, 58, 50, .16);
+      color-scheme: light;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.75;
+    }
+    a { color: inherit; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 72px);
+      background: rgba(245, 241, 233, .88);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+    .seal {
+      width: 34px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #bd413b, #9f332f);
+      color: #fff7ea;
+      box-shadow: 0 10px 22px rgba(174, 54, 49, .22);
+      font-weight: 900;
+      line-height: 1.05;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    nav a { text-decoration: none; }
+    nav a:hover { color: var(--jade-dark); }
+    .hero {
+      min-height: calc(100vh - 64px);
+      position: relative;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(12, 28, 24, .88), rgba(12, 28, 24, .58) 44%, rgba(245, 241, 233, .08)),
+        url("assets/screenshots/timeline.png") center / cover no-repeat;
+    }
+    .hero-inner {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 82px 0 54px;
+      color: #fffaf0;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 999px;
+      font-size: 13px;
+      color: rgba(255,250,240,.84);
+      background: rgba(255,255,255,.08);
+    }
+    h1 {
+      margin: 22px 0 16px;
+      font-size: clamp(44px, 8vw, 92px);
+      line-height: .98;
+      letter-spacing: 0;
+      max-width: 920px;
+    }
+    .hero p {
+      max-width: 760px;
+      margin: 0 0 28px;
+      color: rgba(255,250,240,.88);
+      font-size: clamp(17px, 2vw, 22px);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.24);
+      background: #fffaf0;
+      color: #163e37;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .btn.secondary {
+      background: rgba(255,255,255,.1);
+      color: #fffaf0;
+    }
+    .section {
+      padding: clamp(58px, 8vw, 110px) clamp(20px, 5vw, 72px);
+    }
+    .section.alt { background: var(--paper-2); }
+    .inner { width: min(1180px, 100%); margin: 0 auto; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    h2 {
+      margin: 0;
+      font-size: clamp(30px, 4.2vw, 54px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+    .lead {
+      margin: 12px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .problem {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,.58);
+      box-shadow: 0 16px 40px rgba(34, 60, 52, .08);
+    }
+    .problem strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 19px;
+      color: var(--jade-dark);
+    }
+    .screens {
+      display: grid;
+      gap: 32px;
+    }
+    .shot {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+      gap: 28px;
+      align-items: center;
+    }
+    .shot:nth-child(even) { grid-template-columns: minmax(280px, .85fr) minmax(0, 1.15fr); }
+    .shot:nth-child(even) .shot-media { order: 2; }
+    .shot-media {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #fff;
+    }
+    .shot-media img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .shot-text {
+      padding: 8px 0;
+    }
+    .tag {
+      display: inline-flex;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(47,111,95,.1);
+      color: var(--jade-dark);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    h3 {
+      margin: 0 0 10px;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.18;
+    }
+    .shot-text p { color: var(--muted); margin: 0; font-size: 17px; }
+    .principles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .principle {
+      display: flex;
+      gap: 14px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,.62);
+    }
+    .mark {
+      width: 12px;
+      height: 42px;
+      border-radius: 6px;
+      flex: 0 0 auto;
+      background: var(--jade);
+    }
+    .principle:nth-child(2) .mark { background: var(--coral); }
+    .principle:nth-child(3) .mark { background: var(--gold); }
+    .principle:nth-child(4) .mark { background: var(--blue); }
+    .principle strong { display: block; margin-bottom: 4px; }
+    .principle span { color: var(--muted); }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+    .feature {
+      min-height: 138px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255,255,255,.68);
+    }
+    .feature strong { display: block; margin-bottom: 6px; color: var(--jade-dark); }
+    .feature span { color: var(--muted); font-size: 14px; }
+    .start {
+      background: #1c3e37;
+      color: #fffaf0;
+    }
+    .start .lead { color: rgba(255,250,240,.78); }
+    pre {
+      margin: 22px 0 0;
+      padding: 20px;
+      border-radius: 8px;
+      overflow: auto;
+      background: #102520;
+      color: #f7f1e5;
+      border: 1px solid rgba(255,255,255,.12);
+      font-size: 14px;
+    }
+    .footer {
+      padding: 34px clamp(20px, 5vw, 72px);
+      background: #132b26;
+      color: rgba(255,250,240,.72);
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .footer .inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer a { color: #fffaf0; }
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .problem-grid, .principles, .features { grid-template-columns: 1fr; }
+      .shot, .shot:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+      .shot:nth-child(even) .shot-media { order: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="seal">松<br>涧</div>
+      <span>松涧听澜</span>
+    </div>
+    <nav aria-label="页面导航">
+      <a href="#why">解决问题</a>
+      <a href="#screens">页面截图</a>
+      <a href="#principles">原则</a>
+      <a href="#start">启动</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <span class="eyebrow">本地优先 · 写给自己看 · 个人知识门户</span>
+        <h1>一个人的个人社交网站</h1>
+        <p>把日记、说说、照片、待办、读书笔记和知识图谱汇聚在本机。无需上传日志，无需等待推荐算法，也无需把自己的生活包装给别人看。</p>
+        <div class="hero-actions">
+          <a class="btn" href="../README.md">查看 README</a>
+          <a class="btn secondary" href="操作手册.md">操作手册</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="section">
+      <div class="inner">
+        <div class="section-head">
+          <div>
+            <h2>它解决的不是笔记问题，而是回到自己生活的问题</h2>
+            <p class="lead">松涧听澜把散落的本地记录重新组织成一个可浏览、可检索、可回顾的个人空间。</p>
+          </div>
+        </div>
+        <div class="problem-grid">
+          <div class="problem">
+            <strong>本地数据汇聚</strong>
+            <p>日记、项目、领域、资源、图书馆和说说仍然是本机文件，但在门户里获得统一入口。</p>
+          </div>
+          <div class="problem">
+            <strong>日志无需上传</strong>
+            <p>短想法、照片和日记不需要进入云端平台。它们可以只是写给未来的自己。</p>
+          </div>
+          <div class="problem">
+            <strong>自己写给自己看</strong>
+            <p>像个人社交网站一样记录生活，但没有点赞、推荐和曝光压力，只有检索和回顾。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens" class="section alt">
+      <div class="inner">
+        <h2>内部页面截图</h2>
+        <p class="lead">以下截图来自发布候选版演示 Vault，未使用真实个人 Vault 或 API Key。</p>
+        <div class="screens">
+          <article class="shot">
+            <div class="shot-media"><img src="assets/screenshots/timeline.png" alt="时间轴页面截图"></div>
+            <div class="shot-text">
+              <span class="tag">时间轴</span>
+              <h3>把生活动态还给自己</h3>
+              <p>说说、照片、日志摘录和文档改动合在一条本地时间轴里。它保留的是私人语境，而不是公开表演。</p>
+            </div>
+          </article>
+          <article class="shot">
+            <div class="shot-media"><img src="assets/screenshots/settings.png" alt="设置页面截图"></div>
+            <div class="shot-text">
+              <span class="tag">安装支持</span>
+              <h3>API Key 和 OCR 依赖有明确提示</h3>
+              <p>设置页直接说明 Obsidian Local REST API、API Key、Pillow 和 OCR 的安装路径，减少首次使用时的摸索。</p>
+            </div>
+          </article>
+          <article class="shot">
+            <div class="shot-media"><img src="assets/screenshots/graph.png" alt="知识图谱页面截图"></div>
+            <div class="shot-text">
+              <span class="tag">知识图谱</span>
+              <h3>本地笔记变成可回看的地图</h3>
+              <p>双链、文件夹、节点过滤和图形浏览帮助你重新看到记录之间的关系，而不改变 Markdown 的归属。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="principles" class="section">
+      <div class="inner">
+        <h2>设计原则</h2>
+        <p class="lead">它首先是个人系统，其次才是软件项目。</p>
+        <div class="principles">
+          <div class="principle"><div class="mark"></div><div><strong>本地优先</strong><span>核心内容仍在 Obsidian Vault 和本机缓存中。</span></div></div>
+          <div class="principle"><div class="mark"></div><div><strong>不上传日志</strong><span>个人动态不需要进入云端平台。</span></div></div>
+          <div class="principle"><div class="mark"></div><div><strong>可回顾</strong><span>围绕时间轴、搜索、图谱和图书馆组织长期记忆。</span></div></div>
+          <div class="principle"><div class="mark"></div><div><strong>可审查</strong><span>发布候选版剥离真实 Vault、凭证、缓存和运行态目录。</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="inner">
+        <h2>主要能力</h2>
+        <div class="features">
+          <div class="feature"><strong>日志</strong><span>按日期读写 Markdown，保留日常记录。</span></div>
+          <div class="feature"><strong>时间轴</strong><span>说说、照片、日志和文档改动按月汇总。</span></div>
+          <div class="feature"><strong>待办</strong><span>Markdown 看板、拖拽和并发保护。</span></div>
+          <div class="feature"><strong>图谱</strong><span>从本地 Vault 构建双链关系图。</span></div>
+          <div class="feature"><strong>图书馆</strong><span>电子书预览、分类、标签和读书笔记。</span></div>
+          <div class="feature"><strong>搜索</strong><span>文件名、正文和标签检索。</span></div>
+          <div class="feature"><strong>OCR</strong><span>粘贴图片识别，屏幕框选可选安装 Pillow。</span></div>
+          <div class="feature"><strong>多主题</strong><span>松涧、二次元、夜读、书房、专注。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="start" class="section start">
+      <div class="inner">
+        <h2>一键启动</h2>
+        <p class="lead">安装 Python 3.11+ 后，双击候选包中的启动脚本即可预览。没有真实 Vault 时会自动创建演示 Vault。</p>
+        <pre>双击 启动门户.bat
+默认打开 http://127.0.0.1:8765/
+如端口被占用，自动尝试 8766 到 8776</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="inner">
+      <span>松涧听澜 · 本地知识门户</span>
+      <span><a href="../README.md">README</a> · <a href="操作手册.md">操作手册</a> · <a href="系统架构.md">系统架构</a></span>
+    </div>
+  </footer>
+</body>
+</html>

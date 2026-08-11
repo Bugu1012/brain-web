@@ -1,0 +1,3 @@
+# 屏幕框选 OCR 与 Obsidian REST 验证依赖
+Pillow>=10,<12
+requests>=2.31,<3

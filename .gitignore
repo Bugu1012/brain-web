@@ -1,0 +1,34 @@
+# 本地运行与发布构建边界
+.venv/
+__pycache__/
+**/__pycache__/
+www/cache/
+state/
+demo_vault/
+export/
+sync_staging/
+_backups/
+backups/
+*.log
+*.tmp
+
+# 前端依赖与本地工具输出
+frontend/node_modules/
+frontend/npm_install.log
+tools/**/node_modules/
+tools/**/__pycache__/
+
+# 凭证、个人内容与环境配置
+.env
+.env.*
+!.env.example
+credentials/
+*.pem
+*.key
+*.pfx
+*.p12
+
+# 编辑器与系统文件
+.DS_Store
+Thumbs.db
+.vscode/

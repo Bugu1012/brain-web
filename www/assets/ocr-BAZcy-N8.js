@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/src-eo0FPqY6.js","assets/index-CuPrTUwe.js","assets/index-DHVAXzzY.css"])))=>i.map(i=>d[i]);
+import{s as e,t}from"./index-CuPrTUwe.js";var n=null,r=null;async function i(i,a){r=a||null,n||=(async()=>await(await t(()=>import(`./src-eo0FPqY6.js`).then(t=>e(t.default,1)),__vite__mapDeps([0,1,2]))).createWorker([`chi_sim`,`eng`],1,{langPath:`/tessdata`,logger:e=>{e.status===`recognizing text`&&r&&r(e.progress||0)}}))();let{data:o}=await(await n).recognize(i);return o&&o.text||``}export{i as ocrImage};
