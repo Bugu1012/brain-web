@@ -242,52 +242,6 @@ python scripts\build_index.py
 
 直接运行后端服务时必须提供有效 `BRAIN_WEB_VAULT`。需要自动创建演示 Vault 时，请使用 `启动门户.bat`。
 
-## Git 发布建议
-
-正式 push 前建议先决定发布形态。
-
-| 形态 | 适合场景 | Git 内容策略 |
-|---|---|---|
-| 源码仓库 | 开发者克隆后自行构建 | 可忽略 `www/`，要求 Node.js/npm |
-| 开箱预览仓库 | 用户克隆后尽量直接双击启动 | 应提交 `www/index.html`、`www/assets/`、`www/tessdata/`，但继续忽略 `www/cache/` |
-| GitHub Pages 展示 | 先让访问者看到项目效果 | 可启用 `docs/` 作为 Pages 来源 |
-
-当前候选目录还不是 Git 仓库。初始化示例：
-
-```powershell
-git init
-git branch -M main
-git remote add origin <your-repo-url>
-```
-
-提交前至少运行：
-
-```powershell
-node tests\test_lib.mjs
-py -3 tests\test_release_hygiene.py
-```
-
-检查待提交内容：
-
-```powershell
-git status --short
-git diff -- README.md .env.example .gitignore docs RELEASE_MANIFEST.md THIRD_PARTY_NOTICES.md
-```
-
-只有确认无真实 Vault、无凭证、无运行态目录后再提交和 push。
-
-## 发布前必须确认
-
-- README 与网页预览表达的是同一个产品定位。
-- `docs/index.html` 可直接打开，截图能显示内部页面效果。
-- `docs/操作手册.md` 没有私有路径或凭证。
-- `py -3 tests\test_release_hygiene.py` 通过。
-- `node tests\test_lib.mjs` 通过。
-- `http://127.0.0.1:<端口>/manual`、`/manual/`、`/manual.html` 均可打开。
-- Obsidian API Key 只作为本机会话输入，不进入仓库。
-- OCR 依赖提示清楚；未安装 Pillow 时基础门户仍可打开。
-- 仓库许可证、可见性和是否提交 `www/` 已明确。
-
 ## 已知限制
 
 - 当前主要适配 Windows 本机。
@@ -302,11 +256,8 @@ git diff -- README.md .env.example .gitignore docs RELEASE_MANIFEST.md THIRD_PAR
 - [网页预览](docs/index.html)
 - [操作手册](docs/操作手册.md)
 - [系统架构](docs/系统架构.md)
-- [发布前审阅清单](docs/发布前审阅清单.md)
-- [发布候选包审查报告](docs/发布候选包_审查报告_20260810.md)
 - [本地优先与运行时配置 ADR](docs/decisions/ADR-001-local-first-and-runtime-configuration.md)
 - [第三方组件说明](THIRD_PARTY_NOTICES.md)
-- [发布包边界清单](RELEASE_MANIFEST.md)
 
 ## 许可证与第三方组件
 
